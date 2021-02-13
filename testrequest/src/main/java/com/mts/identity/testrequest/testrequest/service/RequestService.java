@@ -35,6 +35,21 @@ public class RequestService {
         return resp + " from calling service B";
     }
 
+    @GetMapping("/C")
+    public String getResponseFromServiceUsingURL() {
+
+        String token = getTokenFromURL();
+
+        String uri = "/testresponse";
+        String resp = getWebClient().get()
+            .uri(uri)
+            .headers(h -> h.setBearerAuth(token))
+            .retrieve()
+            .bodyToMono(String.class)
+            .block();
+        return resp + " from calling service B";
+    }
+
     public WebClient getWebClient() {
         WebClient wc = WebClient.create("https://testrespond-1612865660384.azurewebsites.net");
         return wc;
@@ -56,6 +71,15 @@ public class RequestService {
 
         return accessToken;
 
+    }
+
+    private String getTokenFromURL() {
+        WebClient wc = WebClient.create("http://169.254.169.254/metadata/identity/oauth2/token?resource=https://management.azure.com/&api-version%3D=2018-02-01");
+
+        String response = null;
+        response = wc.get().retrieve().bodyToMono(String.class).block();
+
+        return response;
     }
 
 }
