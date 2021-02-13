@@ -42,11 +42,11 @@ public class RequestService {
 
     private String getAzureToken() {
         ManagedIdentityCredential credential = new ManagedIdentityCredentialBuilder()
-                                            .clientId("880d2a32-d5a4-499e-b277-de9727be52bd")
+                                            .clientId("89ead37f-fc46-42bc-94a5-c328d48c2d77")
                                             .build();
 
         TokenRequestContext trc = new TokenRequestContext();
-        trc.setScopes(Arrays.asList("Files.Read"));
+        trc.setScopes(Arrays.asList("api://810b6f10-0703-48b3-90f9-bb80133181d4/Files.Read"));
 
         AccessToken at = credential.getToken(trc).block();
 
