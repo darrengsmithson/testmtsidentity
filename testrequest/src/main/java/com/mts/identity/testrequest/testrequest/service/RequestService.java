@@ -42,7 +42,7 @@ public class RequestService {
 
     private String getAzureToken() {
         ManagedIdentityCredential credential = new ManagedIdentityCredentialBuilder()
-                                            .clientId("bc05d9a9-ff60-4508-a690-8281d58769c8")
+                                            .clientId("89ead37f-fc46-42bc-94a5-c328d48c2d77")
                                             .build();
 
         TokenRequestContext trc = new TokenRequestContext();
