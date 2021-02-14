@@ -73,7 +73,7 @@ public class RequestService {
     @GetMapping("/testchange")
     public String getTestChange() {
 
-        return "test change 1";
+        return "test change 2";
     }
 
     public WebClient getWebClient() {
@@ -118,7 +118,7 @@ public class RequestService {
         }
         catch(Exception ex)
         {
-            return "ex - " + ex.getMessage();
+            return "ex is -  " + ex.getMessage();
         }
     }
 
