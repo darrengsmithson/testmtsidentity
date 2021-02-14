@@ -67,7 +67,13 @@ public class RequestService {
 
         String token = getTokenFromURL();
 
-        return "token from url";
+        return "token from url - " + token;
+    }
+
+    @GetMapping("/testchange")
+    public String getTestChange() {
+
+        return "test change 1";
     }
 
     public WebClient getWebClient() {
