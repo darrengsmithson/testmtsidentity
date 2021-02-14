@@ -74,7 +74,7 @@ public class RequestService {
     @GetMapping("/testchange")
     public String getTestChange() {
 
-        return "test change 4";
+        return "test change 5";
     }
 
     public WebClient getWebClient() {
@@ -104,7 +104,8 @@ public class RequestService {
     {
         try
         {
-            URL url = new URL("http://169.254.169.254/metadata/identity/oauth2/token?resource=https://management.azure.com/&api-version%3D=2018-02-01");
+
+            URL url = new URL("http://169.254.169.254/metadata/identity/oauth2/token?api-version=<api_version>&resource=https%3A%2F%2Fmanagement.azure.com%2F");
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             con.setRequestProperty("metadata", "true");
