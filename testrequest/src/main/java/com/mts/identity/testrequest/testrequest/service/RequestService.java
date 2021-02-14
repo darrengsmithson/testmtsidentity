@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Arrays;
 
 @RestController
@@ -89,13 +93,27 @@ public class RequestService {
 
     }
 
-    private String getTokenFromURL() {
-        WebClient wc = WebClient.create("http://169.254.169.254/metadata/identity/oauth2/token?resource=https://management.azure.com/&api-version%3D=2018-02-01");
-
-        String response = null;
-        response = wc.get().retrieve().bodyToMono(String.class).block();
-
-        return response;
+    private String getTokenFromURL()
+    {
+        try
+        {
+            URL url = new URL("http://169.254.169.254/metadata/identity/oauth2/token?resource=https://management.azure.com/&api-version%3D=2018-02-01");
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            con.setRequestProperty("Metadata", "True");
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String line;
+            StringBuffer response = new StringBuffer();
+            while ((line = in.readLine()) != null) {
+                response.append(line);
+            }
+            in.close();
+            return response.toString();
+        }
+        catch(Exception ex)
+        {
+            return "";
+        }
     }
 
 }
