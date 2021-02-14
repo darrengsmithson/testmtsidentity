@@ -105,10 +105,10 @@ public class RequestService {
         try
         {
 
-            URL url = new URL("http://169.254.169.254/metadata/identity/oauth2/token?api-version=<api_version>&resource=https%3A%2F%2Fmanagement.azure.com%2F");
+            URL url = new URL("http://169.254.169.254/metadata/identity/oauth2/token?api-version=<api_version>&resource=https://management.azure.com/");
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
-            con.setRequestProperty("metadata", "true");
+            con.setRequestProperty("Metadata", "true");
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String line;
             StringBuffer response = new StringBuffer();
