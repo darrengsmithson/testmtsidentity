@@ -50,6 +50,22 @@ public class RequestService {
         return resp + " from calling service B";
     }
 
+    @GetMapping("/D")
+    public String getTokenFromService() {
+
+        String token = getAzureToken();
+
+        return "token from managed identity - " + token;
+    }
+
+    @GetMapping("/E")
+    public String getTokenFromServiceUsingURL() {
+
+        String token = getTokenFromURL();
+
+        return "token from url";
+    }
+
     public WebClient getWebClient() {
         WebClient wc = WebClient.create("https://testrespond-1612865660384.azurewebsites.net");
         return wc;
