@@ -118,7 +118,7 @@ public class RequestService {
         }
         catch(Exception ex)
         {
-            return "";
+            return "ex - " + ex.getMessage();
         }
     }
 
