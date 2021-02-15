@@ -71,6 +71,14 @@ public class RequestService {
         return "token from url - " + token;
     }
 
+    @GetMapping("/F")
+    public String getTESTTokenFromServiceUsingURL() {
+
+        String token = getTestTokenFromURL();
+
+        return "TEST OUTPUT from url - " + token;
+    }
+
     @GetMapping("/testchange")
     public String getTestChange() {
 
@@ -106,6 +114,30 @@ public class RequestService {
         {
 
             URL url = new URL("http://169.254.169.254/metadata/identity/oauth2/token?api-version=<api_version>&resource=https://management.azure.com/");
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            con.setRequestProperty("Metadata", "true");
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String line;
+            StringBuffer response = new StringBuffer();
+            while ((line = in.readLine()) != null) {
+                response.append(line);
+            }
+            in.close();
+            return response.toString();
+        }
+        catch(Exception ex)
+        {
+            return "ex is -  " + ex.getMessage();
+        }
+    }
+
+    private String getTestTokenFromURL()
+    {
+        try
+        {
+
+            URL url = new URL("https://samples.openweathermap.org/data/2.5/weather?q=London,uk&appid=2b1fd2d7f77ccf1b7de9b441571b39b8");
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             con.setRequestProperty("Metadata", "true");
