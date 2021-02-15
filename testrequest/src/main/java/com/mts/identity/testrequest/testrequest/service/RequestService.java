@@ -118,11 +118,13 @@ public class RequestService {
     private String getTokenFromURL() throws Exception {
         URL msiEndpoint = new URL("http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=https://management.azure.com/");
         HttpURLConnection con = (HttpURLConnection) msiEndpoint.openConnection();
-        return con.toString();
-        /*
+
+
         con.setRequestMethod("GET");
         con.setRequestProperty("Metadata", "true");
 
+        return con.toString();
+        /*
         if (con.getResponseCode()!=200) {
             throw new Exception("Error calling managed identity token endpoint.");
         }
