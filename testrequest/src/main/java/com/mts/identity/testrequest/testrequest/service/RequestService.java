@@ -71,7 +71,7 @@ public class RequestService {
     }
 
     @GetMapping("/E")
-    public String getTokenFromServiceUsingURL() {
+    public String getTokenFromServiceUsingURL() throws Exception {
 
         String token = getTokenFromURL();
 
