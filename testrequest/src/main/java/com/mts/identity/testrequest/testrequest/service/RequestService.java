@@ -4,14 +4,21 @@ import com.azure.core.credential.AccessToken;
 import com.azure.core.credential.TokenRequestContext;
 import com.azure.identity.ManagedIdentityCredential;
 import com.azure.identity.ManagedIdentityCredentialBuilder;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Arrays;
 
@@ -108,28 +115,39 @@ public class RequestService {
 
     }
 
-    private String getTokenFromURL()
-    {
-        try
-        {
+    private String getTokenFromURL() throws Exception {
+        URL msiEndpoint = new URL("http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=https://management.azure.com/");
+        HttpURLConnection con = (HttpURLConnection) msiEndpoint.openConnection();
+        con.setRequestMethod("GET");
+        con.setRequestProperty("Metadata", "true");
 
-            URL url = new URL("http://169.254.169.254/metadata/identity/oauth2/token?api-version=<api_version>&resource=https://management.azure.com/");
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-            con.setRequestProperty("Metadata", "true");
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String line;
-            StringBuffer response = new StringBuffer();
-            while ((line = in.readLine()) != null) {
-                response.append(line);
+        if (con.getResponseCode()!=200) {
+            throw new Exception("Error calling managed identity token endpoint.");
+        }
+
+        InputStream responseStream = con.getInputStream();
+
+        JsonFactory factory = new JsonFactory();
+        JsonParser parser = factory.createParser(responseStream);
+
+        String ret = "";
+
+        while(!parser.isClosed()){
+            JsonToken jsonToken = parser.nextToken();
+
+            if(JsonToken.FIELD_NAME.equals(jsonToken)){
+                String fieldName = parser.getCurrentName();
+                jsonToken = parser.nextToken();
+
+                if("access_token".equals(fieldName)){
+                    String accesstoken = parser.getValueAsString();
+                    ret = accesstoken.substring(0,5)+ "..." + accesstoken.substring(accesstoken.length()-5);
+                }
             }
-            in.close();
-            return response.toString();
         }
-        catch(Exception ex)
-        {
-            return "ex is -  " + ex.getMessage();
-        }
+
+        return ret;
+
     }
 
     private String getTestTokenFromURL()
