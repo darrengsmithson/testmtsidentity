@@ -7,10 +7,13 @@ import com.azure.identity.ManagedIdentityCredentialBuilder;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
+import com.microsoft.rest.RestException;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -116,49 +119,23 @@ public class RequestService {
     }
 
     private String getTokenFromURL() throws Exception {
-        URL msiEndpoint = new URL("http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=https://management.azure.com/");
-        HttpURLConnection con = (HttpURLConnection) msiEndpoint.openConnection();
+        String msiEndpoint = "http://169.254.169.254/metadata/identity/oauth2/token";
 
 
-        con.setRequestMethod("GET");
-        con.setRequestProperty("Metadata", "true");
-
-        return String.valueOf(con.getResponseCode());
-
-        /*
-        if (con.getResponseCode()!=200) {
-            throw new Exception("Error calling managed identity token endpoint.");
-        }
-
-
-
-
-        InputStream responseStream = con.getInputStream();
-
-        JsonFactory factory = new JsonFactory();
-        JsonParser parser = factory.createParser(responseStream);
-
-        String ret = "";
-
-        while(!parser.isClosed()){
-            JsonToken jsonToken = parser.nextToken();
-
-            if(JsonToken.FIELD_NAME.equals(jsonToken)){
-                String fieldName = parser.getCurrentName();
-                jsonToken = parser.nextToken();
-
-                if("access_token".equals(fieldName)){
-                    String accesstoken = parser.getValueAsString();
-                    ret = accesstoken.substring(0,5)+ "..." + accesstoken.substring(accesstoken.length()-5);
-                }
-            }
-        }
-
-
-
-        return "response code is - " + String.valueOf(con.getResponseCode() + "response message - " + con.getResponseMessage());
-
-         */
+        return getWebClient().get().uri(uriBuilder ->
+            uriBuilder
+                .path(msiEndpoint)
+                .queryParam("api-version", "2018-02-01")
+                .queryParam("resource", "https://management.azure.com/")
+                .build())
+            .header("Metadata", "true")
+            .accept(MediaType.APPLICATION_JSON)
+            .retrieve()
+            .onStatus(
+                httpStatus -> !httpStatus.is2xxSuccessful(),
+                resp -> Mono.error(new Exception("ex thrown")))
+            .bodyToMono(String.class)
+            .block();
 
     }
 
