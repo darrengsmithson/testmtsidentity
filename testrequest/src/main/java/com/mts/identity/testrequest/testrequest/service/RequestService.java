@@ -48,7 +48,7 @@ public class RequestService {
     }
 
     @GetMapping("/C")
-    public String getResponseFromServiceUsingURL() {
+    public String getResponseFromServiceUsingURL() throws Exception {
 
         String token = getTokenFromURL();
 
