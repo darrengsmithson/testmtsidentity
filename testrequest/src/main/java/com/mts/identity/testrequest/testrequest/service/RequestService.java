@@ -89,7 +89,7 @@ public class RequestService {
     @GetMapping("/testchange")
     public String getTestChange() {
 
-        return "test change 8";
+        return "test change 9";
     }
 
     public WebClient getWebClient() {
@@ -123,13 +123,15 @@ public class RequestService {
         con.setRequestMethod("GET");
         con.setRequestProperty("Metadata", "true");
 
-        return con.toString();
-        /*
+
+
         if (con.getResponseCode()!=200) {
             throw new Exception("Error calling managed identity token endpoint.");
         }
 
+        return con.toString();
 
+        /*
         InputStream responseStream = con.getInputStream();
 
         JsonFactory factory = new JsonFactory();
