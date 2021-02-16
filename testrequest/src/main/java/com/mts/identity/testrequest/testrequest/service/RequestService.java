@@ -86,7 +86,7 @@ public class RequestService {
     @GetMapping("/testchange")
     public String getTestChange() {
 
-        return "test change 16";
+        return "test change 17";
     }
 
     public WebClient getWebClient() {
@@ -102,7 +102,7 @@ public class RequestService {
         //TokenCredential tokenCredential;
         //tokenCredential = new DefaultAzureCredentialBuilder().build();
         TokenRequestContext trc1 = new TokenRequestContext();
-        trc1.addScopes("https://graph.microsoft.com/.default");
+        trc1.addScopes("https://management.azure.com/.default");
         var x = credential.getToken(trc1).block();
 
         return x.getToken();
