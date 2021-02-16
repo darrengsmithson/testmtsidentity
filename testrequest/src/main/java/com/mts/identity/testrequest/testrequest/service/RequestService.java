@@ -1,7 +1,10 @@
 package com.mts.identity.testrequest.testrequest.service;
 
 import com.azure.core.credential.AccessToken;
+import com.azure.core.credential.TokenCredential;
 import com.azure.core.credential.TokenRequestContext;
+import com.azure.identity.AzureCliCredentialBuilder;
+import com.azure.identity.DefaultAzureCredentialBuilder;
 import com.azure.identity.ManagedIdentityCredential;
 import com.azure.identity.ManagedIdentityCredentialBuilder;
 import org.springframework.http.MediaType;
@@ -93,20 +96,17 @@ public class RequestService {
     }
 
     private String getAzureToken() {
-        ManagedIdentityCredential credential = new ManagedIdentityCredentialBuilder()
-                                            .clientId("89ead37f-fc46-42bc-94a5-c328d48c2d77")
-                                            .build();
+        //ManagedIdentityCredential credential = new ManagedIdentityCredentialBuilder()
+        //                                    .clientId("89ead37f-fc46-42bc-94a5-c328d48c2d77")
+         //                                   .build();
 
-        TokenRequestContext trc = new TokenRequestContext();
-        trc.setScopes(Arrays.asList("api://810b6f10-0703-48b3-90f9-bb80133181d4/Files.Read"));
+        TokenCredential tokenCredential;
+        tokenCredential = new DefaultAzureCredentialBuilder().build();
+        TokenRequestContext trc1 = new TokenRequestContext();
+        trc1.addScopes("https://graph.microsoft.com/.default");
+        var x = tokenCredential.getToken(trc1).block();
 
-        AccessToken at = credential.getToken(trc).block();
-
-        String accessToken = at.getToken();
-
-        System.out.println("Token is - " + accessToken);
-
-        return accessToken;
+        return x.getToken();
 
     }
 
@@ -130,7 +130,14 @@ public class RequestService {
         }
         catch(Exception ex)
         {
-            return "ex is -  " + ex.getMessage();
+            BufferedReader in = new BufferedReader(new InputStreamReader(ex.printStackTrace()));
+            String line;
+            StringBuffer response = new StringBuffer();
+            while ((line = in.readLine()) != null) {
+                response.append(line);
+            }
+            in.close();
+            return "ex is -  " + ex.getMessage() + " ex " - ex.;
         }
 
     }
