@@ -84,7 +84,7 @@ public class RequestService {
     @GetMapping("/testchange")
     public String getTestChange() {
 
-        return "test change 12";
+        return "test change 13";
     }
 
     public WebClient getWebClient() {
@@ -111,22 +111,27 @@ public class RequestService {
     }
 
     private String getTokenFromURL() throws Exception {
-        String msiEndpoint = "http://169.254.169.254/metadata/identity/oauth2/token";
 
+        try
+        {
 
-        return getWebClient().get().uri(uriBuilder ->
-            uriBuilder
-                .path(msiEndpoint)
-                .queryParam("api-version", "2019-08-01")
-                .queryParam("resource", "https://graph.microsoft.com/")
-                .build())
-            .header("Metadata", "true")
-            .retrieve()
-            .onStatus(
-                httpStatus -> !httpStatus.is2xxSuccessful(),
-                resp -> Mono.error(new Exception("ex thrown")))
-            .bodyToMono(String.class)
-            .block();
+            URL url = new URL("http://169.254.169.254/metadata/identity/oauth2/token?api-version=2019-08-01&resource=https://management.azure.com/");
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            con.setRequestProperty("Metadata", "true");
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String line;
+            StringBuffer response = new StringBuffer();
+            while ((line = in.readLine()) != null) {
+                response.append(line);
+            }
+            in.close();
+            return response.toString();
+        }
+        catch(Exception ex)
+        {
+            return "ex is -  " + ex.getMessage();
+        }
 
     }
 
