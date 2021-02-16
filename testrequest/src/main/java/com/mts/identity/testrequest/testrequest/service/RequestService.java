@@ -95,15 +95,15 @@ public class RequestService {
     }
 
     private String getAzureToken() {
-        //ManagedIdentityCredential credential = new ManagedIdentityCredentialBuilder()
-        //                                    .clientId("89ead37f-fc46-42bc-94a5-c328d48c2d77")
-         //                                   .build();
+        ManagedIdentityCredential credential = new ManagedIdentityCredentialBuilder()
+                                            .clientId("89ead37f-fc46-42bc-94a5-c328d48c2d77")
+                                            .build();
 
-        TokenCredential tokenCredential;
-        tokenCredential = new DefaultAzureCredentialBuilder().build();
+        //TokenCredential tokenCredential;
+        //tokenCredential = new DefaultAzureCredentialBuilder().build();
         TokenRequestContext trc1 = new TokenRequestContext();
         trc1.addScopes("https://graph.microsoft.com/.default");
-        var x = tokenCredential.getToken(trc1).block();
+        var x = credential.getToken(trc1).block();
 
         return x.getToken();
 
