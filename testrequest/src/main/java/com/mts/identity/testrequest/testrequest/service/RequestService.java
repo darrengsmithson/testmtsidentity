@@ -117,11 +117,10 @@ public class RequestService {
         return getWebClient().get().uri(uriBuilder ->
             uriBuilder
                 .path(msiEndpoint)
-                .queryParam("api-version", "2018-02-01")
-                .queryParam("resource", "https://management.azure.com/")
+                .queryParam("api-version", "2019-08-01")
+                .queryParam("resource", "https://graph.microsoft.com/")
                 .build())
             .header("Metadata", "true")
-            .accept(MediaType.APPLICATION_JSON)
             .retrieve()
             .onStatus(
                 httpStatus -> !httpStatus.is2xxSuccessful(),
