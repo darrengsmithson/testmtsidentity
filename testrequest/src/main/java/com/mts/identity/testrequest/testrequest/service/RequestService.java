@@ -130,14 +130,8 @@ public class RequestService {
         }
         catch(Exception ex)
         {
-            BufferedReader in = new BufferedReader(new InputStreamReader(ex.printStackTrace()));
-            String line;
-            StringBuffer response = new StringBuffer();
-            while ((line = in.readLine()) != null) {
-                response.append(line);
-            }
-            in.close();
-            return "ex is -  " + ex.getMessage() + " ex " - ex.;
+           
+            return "ex is -  " + ex.getMessage();
         }
 
     }
