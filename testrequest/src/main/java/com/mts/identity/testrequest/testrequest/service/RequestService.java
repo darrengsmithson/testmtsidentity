@@ -32,8 +32,7 @@ public class RequestService {
     @GetMapping("/B")
     public String getResponseFromService() {
 
-        //String token = getAzureToken();
-        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Im5PbzNaRHJPRFhFSzFqS1doWHNsSFJfS1hFZyIsImtpZCI6Im5PbzNaRHJPRFhFSzFqS1doWHNsSFJfS1hFZyJ9.eyJhdWQiOiJodHRwczovL21hbmFnZW1lbnQuY29yZS53aW5kb3dzLm5ldC8iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC85OTgwNDY1OS00MzFmLTQ4ZmEtODRjMS02NWM5NjA5ZGUwNWIvIiwiaWF0IjoxNjEzMzM2MjQ5LCJuYmYiOjE2MTMzMzYyNDksImV4cCI6MTYxMzM0MDE0OSwiYWNyIjoiMSIsImFpbyI6IkFWUUFxLzhUQUFBQVR2TG1ZdzNyOTBUMmNsbERHV2dkM2JnZHkxaXZaSzZBK0NvVW5SRXRHbFJ0VFBpRjZDN0VtZzFqbThGbUxSVmdEbkZIN2Z4Nll2MjduWjN2bktxT1A3YmdYaFhIWmdSa210QytDNXB3TTBzPSIsImFtciI6WyJwd2QiLCJtZmEiXSwiYXBwaWQiOiJjNDRiNDA4My0zYmIwLTQ5YzEtYjQ3ZC05NzRlNTNjYmRmM2MiLCJhcHBpZGFjciI6IjIiLCJncm91cHMiOlsiZmE4ZDc1MWMtMTc0Ny00ZWRlLWI5MWMtYjliM2YyNjIwNmE0IiwiMTc2MmE4Y2EtNjc3OC00ZTNhLTk3MWUtZjA2NzFiMzNjOTE0Il0sImlwYWRkciI6IjgyLjI3LjE2Ny4xNSIsIm5hbWUiOiJEYXJyZW4iLCJvaWQiOiJhOGVmZWJjOS1hNGFmLTRjMjEtYTJlYy0zZGVmMDVkYWNiNmMiLCJwdWlkIjoiMTAwMzIwMDEwMjA1RkI5OSIsInJoIjoiMC5BQUFBV1VhQW1SOUQta2lFd1dYSllKM2dXNE5BUzhTd084Rkp0SDJYVGxQTDN6eDVBTE0uIiwic2NwIjoidXNlcl9pbXBlcnNvbmF0aW9uIiwic3ViIjoiMDF6TFlGZzZFTXVpalRhQjBaYllCNHA3c1VxQXFNdEw4cjZ1WDB5MWs5TSIsInRpZCI6Ijk5ODA0NjU5LTQzMWYtNDhmYS04NGMxLTY1Yzk2MDlkZTA1YiIsInVuaXF1ZV9uYW1lIjoiZGFycmVuLnNtaXRoc29uQG10c25kcGgub25taWNyb3NvZnQuY29tIiwidXBuIjoiZGFycmVuLnNtaXRoc29uQG10c25kcGgub25taWNyb3NvZnQuY29tIiwidXRpIjoiQ3hja05fRFpyVXE5Q2pzcGROMThBQSIsInZlciI6IjEuMCIsIndpZHMiOlsiOWI4OTVkOTItMmNkMy00NGM3LTlkMDItYTZhYzJkNWVhNWMzIl0sInhtc190Y2R0IjoxNjA3NDQyNDQwfQ.X4CitigylWkmWvIKO9-DKFSSPAWsgOnFRxYrMWs_W6-Evlz7xsvZsW2R-WMTVia3rjQKEmhXCFpAXuvBo2ESs4kOovyuRQRJ9b62aRHLSvnV6XemIhGHFIPLAhHYT6wgUe0XKH8EV1E3Oef6iGPxc_G3s64WKgnaYc688qp4r8N4whg45LwJNxLuSrGSxA0AKE5jMlbm0Lqi8PFo0ODcFzJvaE6iqlYs9ZtnAAurdf7eVc8mP_ajF1-OwY6UcRKsy5ET3gDw5p8Ef1h2HH33FdV8X--h3vBWI_O08pVdDmZqDIGnP_SpSIdcDJhdjlpszLVMlCHtH3L6HPMHUUkiMg";
+        String token = getAzureToken();
 
         String uri = "/testresponse";
         String resp = getWebClient().get()
@@ -87,7 +86,7 @@ public class RequestService {
     @GetMapping("/testchange")
     public String getTestChange() {
 
-        return "test change 14";
+        return "test change 15";
     }
 
     public WebClient getWebClient() {
@@ -130,7 +129,7 @@ public class RequestService {
         }
         catch(Exception ex)
         {
-           
+
             return "ex is -  " + ex.getMessage();
         }
 
